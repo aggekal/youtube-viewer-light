@@ -1,58 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+//import { Counter } from './features/counter/Counter';
+import { useEffect, useState } from "react";
+import "./App.css";
+import SearchBar from "./features/counter/SearchBar";
+import VideoDetail from "./features/counter/VideoDetail";
+import VideoList from "./features/counter/VideoList";
+import { Video } from "./features/counter/VideoListItem";
+import _ from "lodash";
+import YTSearch from "youtube-api-search";
 
-function App() {
+const App: React.FC = () => {
+  const API_KEY = "AIzaSyCbcQMTPqAevOao2BQsQadm5SFTZljP2dM";
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+
+  useEffect(() => {
+    videoSearch("liverpool");
+  }, []);
+
+  const videoSearch = (term: string) => {
+    YTSearch({ key: API_KEY, term: term }, (videos: Video[]) => {
+      console.log("videos", videos);
+      setVideos(videos);
+      setSelectedVideo(videos[0]);
+    });
+  };
+
+  const handleTermChange = _.debounce((term: string) => {
+    videoSearch(term);
+  }, 300);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <SearchBar onSearchTermChange={handleTermChange} />
+      <VideoDetail video={selectedVideo} />
+      <VideoList
+        videos={videos}
+        onVideoSelect={(selectedVideo) => setSelectedVideo(selectedVideo)}
+      />
     </div>
   );
-}
+};
 
 export default App;

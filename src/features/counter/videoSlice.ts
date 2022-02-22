@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { RootState } from '../../app/store';
 import { Video } from './VideoListItem';
 
 
@@ -13,18 +13,20 @@ const initialState: VideosState = {
   selectedVideo: null
 };
 
-export const videosSlice = createSlice({
-       name: 'videos',
+export const videoSlice = createSlice({
+       name: 'video',
        initialState,
        reducers: {
-         increment: (state) => {
-           state.value += 1;
-         },
-         decrement: (state) => {
-           state.value -= 1;
-         },
-         incrementByAmount: (state, action: PayloadAction<number>) => {
-           state.value += action.payload;
-         },
+       updateVideoList : (state, action: PayloadAction<Video[]>) => {
+              state.value = action.payload
+       },
+       updateSelectedVideo: (state, action: PayloadAction<Video>) => {
+              state.selectedVideo = action.payload
        }
-     });
+     }
+});
+
+export const { updateVideoList,updateSelectedVideo } = videoSlice.actions;
+export const selectVideos = (state: RootState) => state.video.value;
+export const selectSelectedVideo = (state: RootState) => state.video.selectedVideo;
+export default videoSlice.reducer;

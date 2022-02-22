@@ -19,7 +19,6 @@ const App: React.FC = () => {
 
   const videoSearch = (term: string) => {
     YTSearch({ key: API_KEY, term: term }, (videos: Video[]) => {
-      console.log("videos", videos);
       setVideos(videos);
       setSelectedVideo(videos[0]);
     });

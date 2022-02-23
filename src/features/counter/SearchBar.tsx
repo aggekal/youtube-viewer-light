@@ -12,8 +12,13 @@ const SearchBar: React.FC<SearchBarBarProps> = ({ onSearchTermChange }) => {
   };
 
   return (
-    <div className="search-bar">
-      <input value={term} onChange={(e) => onInputChange(e.target.value)} />
+    <div className="flex justify-center mb-2 mt-2">
+      <input
+        placeholder="Search"
+        className="appearance-none border-b-2 border-gray-400  focus:outline-none w-2/4 "
+        value={term}
+        onChange={(e) => onInputChange(e.target.value)}
+      />
     </div>
   );
 };

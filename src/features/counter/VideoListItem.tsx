@@ -1,3 +1,6 @@
+import { useAppDispatch } from "../../app/hooks";
+import { updateSelectedVideo } from "./videoSlice";
+
 export type Video = {
   kind: string;
   etag: string;
@@ -26,22 +29,22 @@ export type Video = {
 
 interface VideListItemProps {
   video: Video;
-  onVideoSelect: (video: Video) => void;
+  // onVideoSelect: (video: Video) => void;
 }
 const VideoListItem: React.FC<VideListItemProps> = ({
   video,
-  onVideoSelect,
+  // onVideoSelect,
 }) => {
   const imageUrl = video.snippet.thumbnails.default.url;
-
+  const dispatch = useAppDispatch();
   return (
-    <li onClick={() => onVideoSelect(video)} className="list-group-item">
-      <div className="video-list media">
-        <div className="media-left">
-          <img className="media-object" alt="video thumbnail" src={imageUrl} />
+    <li onClick={() => dispatch(updateSelectedVideo(video))}>
+      <div className="flex w-full mb-2 cursor-pointer">
+        <div className="w-1/2 mr-2">
+          <img alt="video thumbnail" className="w-full h-full" src={imageUrl} />
         </div>
-        <div className="media-body">
-          <div className="media-heading">{video.snippet.title}</div>
+        <div className="w-1/2 font-black">
+          <p>{video.snippet.title}</p>
         </div>
       </div>
     </li>

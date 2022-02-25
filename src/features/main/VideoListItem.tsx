@@ -1,5 +1,9 @@
 import { useAppDispatch } from "../../app/hooks";
-import { updateSelectedVideo } from "./videoSlice";
+import {
+  emptyComments,
+  updateNextPageToken,
+  updateSelectedVideo,
+} from "./videoSlice";
 
 export type Video = {
   kind: string;
@@ -29,16 +33,19 @@ export type Video = {
 
 interface VideListItemProps {
   video: Video;
-  // onVideoSelect: (video: Video) => void;
 }
-const VideoListItem: React.FC<VideListItemProps> = ({
-  video,
-  // onVideoSelect,
-}) => {
+const VideoListItem: React.FC<VideListItemProps> = ({ video }) => {
   const imageUrl = video.snippet.thumbnails.default.url;
   const dispatch = useAppDispatch();
   return (
-    <li onClick={() => dispatch(updateSelectedVideo(video))}>
+    <li
+      onClick={() => {
+        dispatch(emptyComments());
+        dispatch(updateSelectedVideo(video));
+        dispatch(updateNextPageToken(""));
+      }}
+      className="hover:bg-slate-100"
+    >
       <div className="flex w-full mb-2 cursor-pointer">
         <div className="w-1/2 mr-2">
           <img alt="video thumbnail" className="w-full h-full" src={imageUrl} />

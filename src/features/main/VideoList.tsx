@@ -3,24 +3,13 @@ import VideoListItem from "./VideoListItem";
 import { Video } from "./VideoListItem";
 import { selectVideos } from "./videoSlice";
 
-// interface VideoListProps {
-//   videos: Video[];
-//   onVideoSelect: (video: Video) => void;
-// }
-
 const VideoList: React.FC = () => {
   const videos = useAppSelector(selectVideos);
   const videoItems = videos.map((video: Video) => {
-    return (
-      <VideoListItem
-        //    onVideoSelect={onVideoSelect}
-        key={video.etag}
-        video={video}
-      />
-    );
+    return <VideoListItem key={video.etag} video={video} />;
   });
 
-  return <ul className="col-md-4 list-group">{videoItems}</ul>;
+  return <ul className="w-full lg:w-1/4">{videoItems}</ul>;
 };
 
 export default VideoList;

@@ -15,7 +15,7 @@ const SearchBar: React.FC<SearchBarBarProps> = ({ onSearchTermChange }) => {
     <div className="flex justify-center mb-2 mt-2">
       <input
         placeholder="Search"
-        className="appearance-none border-b-2 border-gray-400  focus:outline-none w-2/4 "
+        className="appearance-none border-b border-gray-300  focus:outline-none w-2/4 "
         value={term}
         onChange={(e) => onInputChange(e.target.value)}
       />
